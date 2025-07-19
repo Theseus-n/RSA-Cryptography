@@ -1,0 +1,59 @@
+<div class="visualization">
+    <h3>Proses {{ algorithm|upper }}</h3>
+    <div class="steps">
+        {% for step in steps %}
+        <div class="step">
+            <div class="step-number">{{ loop.index }}</div>
+            <div class="step-content">
+                <h4>{{ step.title }}</h4>
+                <p>{{ step.description }}</p>
+                {% if step.formula %}
+                <div class="formula">\[{{ step.formula }}\]</div>
+                {% endif %}
+                {% if step.example %}
+                <div class="example">
+                    <strong>Contoh:</strong> {{ step.example }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    .step {
+        display: flex;
+        gap: 15px;
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .step-number {
+        background: #3498db;
+        color: white;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+    .formula {
+        font-family: monospace;
+        font-size: 1.1em;
+        margin: 10px 0;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 4px;
+    }
+</style>

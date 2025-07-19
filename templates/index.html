@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CryptoVault - Multi Algorithm</title>
+  <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #1e1b4b;
+            --accent: #8b5cf6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --card-bg: #1e293b;
+            --card-bg-light: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--dark);
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 40% 60%, rgba(245, 101, 101, 0.1) 0%, transparent 30%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 10px;
+            background-attachment: fixed;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            padding: 60px 20px 40px;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 10%;
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-1);
+            border-radius: 50%;
+            opacity: 0.3;
+            filter: blur(40px);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .header::after {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            opacity: 0.3;
+            filter: blur(35px);
+            animation: float 8s ease-in-out infinite reverse;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+            position: relative;
+        }
+        
+        .header h1::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--gradient-3);
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        
+        .header h1::after {
+            content: '';
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 15px;
+            height: 15px;
+            background: var(--gradient-2);
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite 1s;
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            background: linear-gradient(45deg, var(--text-secondary), var(--text-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 
+                0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-3);
+        }
+        
+        .key-card {
+            background: var(--gradient-2);
+            color: rgb(95, 9, 69);
+            border: none;
+        }   
+        
+        .key-card::before {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .key-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .key-card p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+            opacity: 0.95;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+        
+        select, input, textarea {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--card-bg-light);
+            border-radius: 12px;
+            font-size: 16px;
+            background: var(--card-bg-light);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        select:focus, input:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+            background: var(--card-bg);
+        }
+        
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: var(--card-bg-light);
+            border-radius: 12px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .radio-option input[type="radio"]:checked + label {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .radio-option:has(input[type="radio"]:checked) {
+            border-color: var(--primary);
+            background: var(--card-bg);
+        }
+        
+        .radio-option:hover {
+            border-color: var(--primary);
+            background: var(--card-bg);
+        }
+        
+        .radio-option input[type="radio"] {
+            width: auto;
+            margin: 0;
+            accent-color: var(--primary);
+        }
+        
+        .radio-option label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .btn {
+            background: var(--gradient-1);
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .result-box {
+            background: var(--card-bg-light);
+            border-left: 4px solid var(--success);
+            padding: 25px;
+            border-radius: 12px;
+            margin-top: 25px;
+            position: relative;
+        }
+        
+        .result-box::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            width: 12px;
+            height: 12px;
+            background: var(--success);
+            border-radius: 50%;
+        }
+        
+        .result-box h3 {
+            color: var(--success);
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .error-box {
+            background: rgba(239, 68, 68, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        
+        .algorithm-params {
+            background: var(--card-bg-light);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px dashed var(--primary);
+            position: relative;
+        }
+        
+        .algorithm-params::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+        
+        .notes {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .notes::before {
+            background: var(--gradient-2);
+        }
+        
+        .note-title {
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .notes ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .notes li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .notes li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+        }
+        
+        .notes p {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin: 20px 0 10px 0;
+        }
+        
+        .monospace {
+            font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            font-size: 1rem;
+            background: var(--dark);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--primary);
+            word-break: break-all;
+            margin-bottom: 15px;
+        }
+        
+        /* Styling untuk fitur copy - FIXED VERSION */
+        .result-content {
+            position: relative;
+        }
+        
+        .copy-btn {
+            background: var(--gradient-3);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: block;
+            margin: 0 auto;
+            width: fit-content;
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+        
+        .copy-btn.copied {
+            background: var(--success);
+        }
+        
+        .copy-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .copy-notification.show {
+            transform: translateX(0);
+        }
+        
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            body {
+                padding: 5px;
+            }
+            
+            .container {
+                max-width: 100%;
+                padding: 5px;
+            }
+            
+            .header {
+                padding: 40px 15px 30px;
+                margin-bottom: 25px;
+            }
+            
+            .header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .header h1::before,
+            .header h1::after {
+                display: none;
+            }
+            
+            .header p {
+                font-size: 1.1rem;
+            }
+            
+            .card {
+                padding: 20px 15px;
+                margin-bottom: 20px;
+                border-radius: 16px;
+            }
+            
+            .key-card {
+                padding: 25px 20px;
+            }
+            
+            .key-card h2 {
+                font-size: 1.3rem;
+            }
+            
+            .key-card p {
+                font-size: 0.9rem;
+                word-break: break-all;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            select, input, textarea {
+                padding: 14px 16px;
+                font-size: 16px; /* Prevent zoom on iOS */
+                border-radius: 10px;
+            }
+            
+            .radio-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .radio-option {
+                min-width: auto;
+                padding: 16px;
+                justify-content: center;
+                text-align: center;
+            }
+            
+            .btn {
+                padding: 16px 25px;
+                font-size: 16px;
+                border-radius: 10px;
+            }
+            
+            .algorithm-params {
+                padding: 16px;
+                margin: 15px 0;
+            }
+            
+            .result-box {
+                padding: 20px 15px;
+            }
+            
+            .monospace {
+                font-size: 0.85rem;
+                padding: 12px;
+                word-break: break-all;
+                overflow-wrap: break-word;
+            }
+            
+            .notes {
+                padding: 20px 15px;
+            }
+            
+            .note-title {
+                font-size: 1.2rem;
+            }
+            
+            .notes li {
+                font-size: 0.9rem;
+                padding: 6px 0;
+            }
+            
+            .copy-btn {
+                width: 100%;
+                margin-top: 10px;
+                padding: 12px;
+            }
+            
+            .copy-notification {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .card {
+                padding: 15px 10px;
+            }
+            
+            select, input, textarea {
+                padding: 12px 14px;
+            }
+            
+            .btn {
+                padding: 14px 20px;
+            }
+        }
+        
+        /* Touch-friendly improvements */
+        .radio-option,
+        .btn,
+        select,
+        input,
+        textarea {
+            -webkit-tap-highlight-color: rgba(99, 102, 241, 0.2);
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% {
+                opacity: 0.5;
+                transform: translateY(-50%) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-50%) scale(1.2);
+            }
+        }
+        
+        .card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        .card:nth-child(2) { animation-delay: 0.1s; }
+        .card:nth-child(3) { animation-delay: 0.2s; }
+        .card:nth-child(4) { animation-delay: 0.3s; }
+  </style>
+     <script>
+        function toggleParams() {
+            const algorithm = document.querySelector('[name="algorithm"]').value;
+            const caesarParams = document.getElementById('caesar-params');
+            
+            if (algorithm === 'caesar') {
+                caesarParams.style.display = 'block';
+            } else {
+                caesarParams.style.display = 'none';
+            }
+        }
+        
+        // Simpan posisi scroll sebelum submit
+        function saveScrollPosition() {
+            sessionStorage.setItem('scrollPosition', window.scrollY);
+        }
+        
+        // Restore posisi scroll setelah page load
+        function restoreScrollPosition() {
+            const scrollPosition = sessionStorage.getItem('scrollPosition');
+            if (scrollPosition) {
+                window.scrollTo(0, parseInt(scrollPosition));
+                sessionStorage.removeItem('scrollPosition');
+            }
+        }
+        
+        // Handle form submission dengan AJAX
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            const submitBtn = form.querySelector('.btn');
+            const originalText = submitBtn.textContent;
+            
+            // Show loading state
+            submitBtn.textContent = 'Memproses...';
+            submitBtn.disabled = true;
+            
+            // Clear previous results
+            const existingResult = document.querySelector('.result-box');
+            const existingError = document.querySelector('.error-box');
+            if (existingResult) existingResult.remove();
+            if (existingError) existingError.remove();
+            
+            // Simulate form processing (replace with actual AJAX call)
+            fetch(window.location.href, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Parse the response HTML
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Extract result or error from response
+                const newResult = doc.querySelector('.result-box');
+                const newError = doc.querySelector('.error-box');
+                
+                if (newResult) {
+                    // Insert result after form
+                    form.parentNode.appendChild(newResult);
+                    // Add copy functionality to the new result
+                    addCopyFunctionality();
+                    // Smooth scroll to result
+                    newResult.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+                
+                if (newError) {
+                    // Insert error before form
+                    form.parentNode.insertBefore(newError, form);
+                }
+                
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                
+                // Show error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-box';
+                errorDiv.innerHTML = '<strong>Error:</strong> Terjadi kesalahan saat memproses data.';
+                form.parentNode.insertBefore(errorDiv, form);
+                
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        }
+        
+        // Fungsi untuk handle klik pada radio option
+        function handleRadioOptionClick(event) {
+            const radioOption = event.currentTarget;
+            const radioInput = radioOption.querySelector('input[type="radio"]');
+            
+            if (radioInput && !radioInput.checked) {
+                radioInput.checked = true;
+                // Trigger change event jika ada
+                radioInput.dispatchEvent(new Event('change'));
+            }
+        }
+        
+        // Add radio option click handlers
+        function addRadioOptionHandlers() {
+            const radioOptions = document.querySelectorAll('.radio-option');
+            radioOptions.forEach(option => {
+                option.addEventListener('click', handleRadioOptionClick);
+            });
+        }
+        function addCopyFunctionality() {
+            const resultBoxes = document.querySelectorAll('.result-box');
+            
+            resultBoxes.forEach(box => {
+                if (box.querySelector('.copy-btn')) return; // Skip if button already exists
+                
+                const monoText = box.querySelector('.monospace');
+                if (!monoText) return;
+                
+                // Wrap content in relative container
+                const resultContent = document.createElement('div');
+                resultContent.className = 'result-content';
+                
+                // Move monospace content to new container
+                const monoParent = monoText.parentNode;
+                monoParent.insertBefore(resultContent, monoText);
+                resultContent.appendChild(monoText);
+                
+                // Create copy button
+                const copyBtn = document.createElement('button');
+                copyBtn.className = 'copy-btn';
+                copyBtn.textContent = 'Copy';
+                copyBtn.onclick = function() {
+                    copyToClipboard(monoText.textContent, copyBtn);
+                };
+                
+                resultContent.appendChild(copyBtn);
+            });
+        }
+        
+        // Fungsi untuk copy ke clipboard
+        function copyToClipboard(text, button) {
+            // Try modern clipboard API first
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showCopySuccess(button);
+                }).catch(() => {
+                    fallbackCopy(text, button);
+                });
+            } else {
+                fallbackCopy(text, button);
+            }
+        }
+        
+        // Fallback copy method
+        function fallbackCopy(text, button) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            textArea.style.top = '-9999px';
+            document.body.appendChild(textArea);
+            
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopySuccess(button);
+            } catch (err) {
+                console.error('Copy failed:', err);
+                showCopyError();
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // Show copy success feedback
+        function showCopySuccess(button) {
+            const originalText = button.textContent;
+            button.textContent = 'Copied!';
+            button.classList.add('copied');
+            
+            // Show notification
+            showNotification('Teks berhasil disalin!', 'success');
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('copied');
+            }, 2000);
+        }
+        
+        // Show copy error feedback
+        function showCopyError() {
+            showNotification('Gagal menyalin teks', 'error');
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            // Remove existing notification
+            const existingNotification = document.querySelector('.copy-notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = 'copy-notification';
+            notification.textContent = message;
+            
+            if (type === 'error') {
+                notification.style.background = 'var(--danger)';
+            }
+            
+            document.body.appendChild(notification);
+            
+            // Trigger animation
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 300);
+            }, 3000);
+        }
+        
+        // Initialize when page loads
+        window.onload = function() {
+            toggleParams();
+            restoreScrollPosition();
+            addCopyFunctionality(); // Add copy functionality to existing results
+            addRadioOptionHandlers(); // Add radio option click handlers
+            
+            // Add event listener to form
+            const form = document.querySelector('form');
+            if (form) {
+                form.addEventListener('submit', handleFormSubmit);
+            }
+            
+            // Add event listener to save scroll position before unload
+            window.addEventListener('beforeunload', saveScrollPosition);
+        };
+    </script>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-content">
+            <h1>CryptoVault</h1>
+            <p>Cryptography Text Converter</p>
+        </div>
+    </div>
+    
+    <div class="card key-card">
+        <h2>RSA Keys</h2>
+        <p><strong>Public Key (e, n):</strong> {{ public_key }}</p>
+        <p><strong>Private Key (d, n):</strong> {{ private_key }}</p>
+    </div>
+    
+    {% if error %}
+    <div class="error-box">
+        <strong>Error:</strong> {{ error }}
+    </div>
+    {% endif %}
+    
+    <div class="card">
+        <form method="POST">
+            <div class="form-group">
+                <label for="algorithm">Select Algorithm:</label>
+                <select name="algorithm" id="algorithm" onchange="toggleParams()">
+                    <option value="rsa" {% if algorithm == 'rsa' %}selected{% endif %}>RSA Encryption</option>
+                    <option value="caesar" {% if algorithm == 'caesar' %}selected{% endif %}>Caesar Cipher</option>
+                    <option value="hash" {% if algorithm == 'hash' %}selected{% endif %}>SHA-256 Hashing</option>
+                </select>
+            </div>
+            
+            <div id="caesar-params" class="algorithm-params" style="display: none;">
+                <label for="shift">Shift (1-25):</label>
+                <input type="number" name="shift" min="1" max="25" value="{{ shift }}">
+            </div>
+            
+            <div class="form-group">
+                <label>Select Operation:</label>
+                <div class="radio-group">
+                    <div class="radio-option">
+                        <input type="radio" name="action" id="encrypt" value="encrypt" 
+                               {% if action != 'decrypt' %}checked{% endif %}>
+                        <label for="encrypt">Encrypt/Hash</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" name="action" id="decrypt" value="decrypt"
+                               {% if action == 'decrypt' %}checked{% endif %}>
+                        <label for="decrypt">Decrypt</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="text">Input Text:</label>
+                <textarea name="text" id="text" rows="4" placeholder="Enter text here...">{{ input_text }}</textarea>
+            </div>
+            
+            <button type="submit" class="btn">Process</button>
+        </form>
+        
+        {% if result %}
+        <div class="result-box">
+            <h3>Result:</h3>
+            <div class="result-content">
+                <p class="monospace">{{ result }}</p>
+                <button class="copy-btn" onclick="copyToClipboard('{{ result }}', this)">Copy</button>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="card notes">
+        <h3 class="note-title">Usage Guide</h3>
+        <div class="algorithm-notes">
+            <p>RSA Encryption:</p>
+            <ul>
+                <li>Encrypt: Input plain text (example: HELLO)</li>
+                <li>Decrypt: Input ciphertext numbers (example: 186 114 200 200 203)</li>
+            </ul>
+            
+            <p>Caesar Cipher:</p>
+            <ul>
+                <li>Encrypt/Decrypt: Input text</li>
+                <li>Shift: Number between 1-25</li>
+                <li>Example: Shift 3, "ABC" → "DEF"</li>
+            </ul>
+            
+            <p>SHA-256 Hashing:</p>
+            <ul>
+                <li>Hash operation only (no decryption)</li>
+                <li>Example: "hello" → "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>
