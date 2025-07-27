@@ -6,7 +6,6 @@ Fitur
 2. Enkripsi & Dekripsi Caesar Cipher: Melakukan enkripsi dan dekripsi menggunakan metode Caesar Cipher klasik dengan shift yang dapat disesuaikan.
 3. Hashing SHA-256: Menghasilkan hash SHA-256 dari sebuah teks untuk verifikasi integritas.
 
-SEBAIKNYA mengikuti tutorial youtube dari masing masing part supaya lebih paham bagaimana cara menjalankan kode ini.
-
-Untuk menjalankan aplikasi memerlukan beberapa dependensi lalu mengeksekusi 
-app.py
+Untuk menjalankan aplikasi memerlukan eksekusi powershell di folder
+lalu jalankan
+python app.py
